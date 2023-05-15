@@ -1,13 +1,15 @@
 = WHAT WORKS
 
 http://localhost:5226/weatherforecast
+
 http://localhost:5226/weatherforecast?$select=summary
 
 = WHAT DOESNT WORK
 
+do a $compute and $select, this fails before it evaluates the expression
 http://localhost:5226/weatherforecast?$compute=length(Summary) as len&$select=summary,len
 
-Could not find a property named 'len' on type 'ComputeExample.WeatherForecast'.
+``Could not find a property named 'len' on type 'ComputeExample.WeatherForecast'.
 at Microsoft.OData.UriParser.SelectPathSegmentTokenBinder.ConvertNonTypeTokenToSegment(PathSegmentToken tokenIn, IEdmModel model, IEdmStructuredType edmType, ODataUriResolver resolver, BindingState state)
     at Microsoft.OData.UriParser.SelectExpandBinder.ProcessSelectTokenPath(PathSegmentToken tokenIn)
     at Microsoft.OData.UriParser.SelectExpandBinder.GenerateSelectItem(SelectTermToken tokenIn)
@@ -33,13 +35,12 @@ at Microsoft.OData.UriParser.SelectPathSegmentTokenBinder.ConvertNonTypeTokenToS
     at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
     at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
     at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
-    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)``
 
-
-
+do a $compute, $select and $filter does the expression but fails to output it
 http://localhost:5226/weatherforecast?$compute=length(Summary) as len&$select=summary,len&filter=summary ne null
 
-An unhandled exception has occurred while executing the request.
+``An unhandled exception has occurred while executing the request.
   System.InvalidOperationException: Sequence contains no matching element
       at System.Linq.ThrowHelper.ThrowNoMatchException()
       at Microsoft.AspNetCore.OData.Query.Container.JsonPropertyNameMapper.MapProperty(String propertyName)
@@ -67,4 +68,4 @@ An unhandled exception has occurred while executing the request.
       at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
       at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)         at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)         at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
       at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
-      at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+      at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)``
